@@ -1,0 +1,599 @@
+%\def\sortlist[#1]#2{}{}
+%\def\endsortlist{}
+
+%% KBDbook
+\def\Pxfont{\gtfamily\usefont{\encodingdefault}{pplx}{b}{n}\selectfont}
+\def\Pxfontr{\usefont{\encodingdefault}{pplx}{m}{n}\selectfont}
+\DeclareRobustCommand*\KBsectionfont{\reset@font\fontsize{16Q}{28H}\Pxfont}
+\let\sectionfont\KBsectionfont
+\DeclareRobustCommand*\KBsectionnumfont{\reset@font\fontsize{16Q}{28H}\Pxfont}
+\DeclareRobustCommand*\KBsubsectionfont{\reset@font\fontsize{14Q}{28H}\Pxfont}
+\DeclareRobustCommand*\KBsubsectionnumfont{\reset@font\fontsize{14Q}{28H}\Pxfont}
+\DeclareRobustCommand*\KBpagenumfont{\reset@font\Pxfontr\small}
+ \DeclareRobustCommand*\KBheaderfont{\reset@font\Pxfontr\small}
+
+\KBheadinggap[.5\baselineskip]{section}{4}
+\KBheadinggap{subsection}{2}
+\KBheadinggap[.5\Cht]{subsubsection}{2}
+
+
+\renewcommand{\subsection}{%
+   \@startsection{subsection}{2}{\z@}%
+    {\baselineskip}
+    {.5\baselineskip}
+   {\KBsubsectionfont}}%
+
+\renewcommand{\paragraph}{%
+    \@startsection{paragraph}{4}{\z@}%
+   {\baselineskip}%
+   {-1zw}%
+   {\KBparagraphfont ■}}
+%% chapter setting
+% font
+ \DeclareRobustCommand*\KBchapterfont{\reset@font\fontsize{28Q}{35H}\bfs}
+ \DeclareRobustCommand*\KBchapternumfont{\reset@font\fontencoding{OT1}\romanfamily{ccr}\fontsize{50Q}{0pt}\gtfamily}
+
+%% Concrete font -> \thechpater
+% \DeclareFontFamily{T1}{ccr}{}
+\DeclareFontFamily{OT1}{ccr}{\hyphenchar\font45 }
+% \DeclareFontShape{T1}{ccr}{m}{n}{<->[1.537] eorm10}{}
+\DeclareFontShape{OT1}{ccr}{m}{n}{<->[1.537] ccr10}{}
+
+\Med@arrayrulewidth0.4mm%% 中太罫
+\def\KB@Hline{\noalign{\global\arrayrulewidth0.4mm}\hline\noalign{\global\arrayrulewidth\save@arrayrulewidth}}
+\def\TC{%
+  \rightskip\@flushglue\leftskip\@flushglue
+  \parindent\z@\parfillskip\z@skip}
+\def\TR{%
+  \rightskip\z@skip\leftskip\@flushglue
+  \parindent\z@\parfillskip\z@skip}
+
+\newdimen\KBsideMargin
+\setlength{\KBsideMargin}{\paperwidth}
+\addtolength{\KBsideMargin}{-\textwidth}
+\setlength{\KBsideMargin}{.5\KBsideMargin}
+\addtolength{\KBsideMargin}{3mm}
+
+\def\@makechapterhead#1{{\parindent\z@
+\hrule height\z@ \vskip-\topskip\vskip12H
+%
+\toplinebox{10}{%
+   \ifnum \c@secnumdepth >\m@ne
+\hspace*{-\KBsideMargin}%
+\begin{tabular}{@{}p{\KBsideMargin}@{}p{\textwidth}@{}p{\KBsideMargin}@{}}
+    &\ifodd\c@page\hfill\fi\if@mainmatter\KBchapternumfont\@chapapp\thechapter\@chappos
+    \hspace*{-40Q}\null\else\hbox{}\fi&\\
+    \KB@Hline
+     &
+     \ifodd\c@page\hfill\fi\KBchapterfont\parbox[t]{1.1\textwidth}{\raggedleft%
+     #1
+     }\rule[1zw]{0pt}{16H}&
+     \end{tabular}
+     \par\vfill\fi}}%
+}
+
+\newdimen\kb@chaptertextwidth
+\setlength{\kb@chaptertextwidth}{\textwidth}
+\addtolength{\kb@chaptertextwidth}{-10Q}
+\def\@makechapterhead#1{{\parindent\z@
+\hrule height\z@ \vskip-\topskip\vskip12H
+%
+\toplinebox{10}{%
+   \ifnum \c@secnumdepth >\m@ne
+\begin{tabular}{@{}p{\textwidth}@{}v}
+    \if@mainmatter\KBchapternumfont\@chapapp\thechapter\@chappos
+    \else\hbox{}\fi\\
+    \KB@Hline
+     \hfill\KBchapterfont\parbox[t]{\kb@chaptertextwidth}{\raggedleft%
+     #1}\hskip10Q\rule[1zw]{0pt}{16H}\\[5mm]
+     \multicolumn{1}{r}{%
+     \normalsize\itshape\ChapterAuthor}
+     \end{tabular}
+     \par\vfill\fi}}%
+}
+
+\let\@make@appendix@chapterhead\@makechapterhead
+
+\renewcommand{\emph}[1]{\textsf{\textgt{#1}}}
+
+
+%% end KBD
+
+%% ここより原著マクロllbook4.clsより
+
+\def\copyrightyear#1{\def\thecopyrightyear{#1}}
+\copyrightyear{\the\year}
+\def\locnumber#1{\def\thelocnumber{#1}}
+\def\isbnnumber#1{\def\theisbnnumber{#1}}
+
+\def\copyrightpage{\newpage
+\thispagestyle{empty}
+\vbox to\textheight{\vskip2in
+\vskip-12pt
+\raggedright
+\parindent=0pt
+\parskip=0pt
+\copyrighttextfont
+\copyright\ \thecopyrightyear\ Massachusetts Institute of
+Technology\vrule depth .25in width0pt
+
+All rights reserved. No part of this book may be reproduced in any
+form by any electronic\\ or mechanical means (including photocopying,
+recording or information storage and retrieval)\\
+without permission in writing from the publisher.\vrule depth .25in width0pt
+
+MIT Press books may be purchased at special quantity discounts for business or sales promotional use. For information, please email special\_sales@mitpress.mit.edu.\vrule depth .25in width0pt
+
+This book was set in Adobe Garamond Pro by the author in \LaTeX.\\
+Printed and bound in the United States of America.\vrule depth .25in width0pt
+\vskip1pt
+Library of Congress Cataloging-in-Publication Data\vrule depth .25in width0pt
+\vskip1pt
+Kochenderfer, Mykel J., 1980--\vrule depth .1in width0pt
+\vskip1pt
+Decision making under uncertainty : theory and application / Mykel J. Kochenderfer ; with Christopher Amato, Girish Chowdhary, Jonathan P. How, Hayley J. Davison Reynolds, Jason R. Thornton, Pedro A. Torres-Carrasquillo, N. Kemal \"Ure, and John Vian.\vrule depth .1in width0pt
+\vskip1pt
+\hspace{1em} p.\hspace{1em} cm -- (Lincoln Laboratory series)\vrule depth .1in width0pt
+\vskip1pt
+Includes bibliographical references and index.\vrule depth .1in width0pt
+\vskip1pt
+ISBN 978-0-262-02925-4 (hardcover : alk. paper)\vrule depth .1in width0pt
+\vskip1pt
+1. Intelligent control systems. 2. Automatic machinery. 3. Decision making--Mathematical models. I. Title.\vrule depth .1in width0pt
+\vskip1pt
+TJ217.5.K63 2015\vrule depth .1in width0pt
+\vskip1pt
+003'.56--dc23\vrule depth .1in width0pt
+\vskip1pt
+\hspace{3in}2014048127\vrule depth .1in width0pt
+\vskip1pt
+10\hspace{1em} 9\hspace{1em} 8\hspace{1em} 7\hspace{1em} 6\hspace{1em} 5\hspace{1em} 4\hspace{1em} 3
+
+\vfill
+}}
+
+%%
+\def\title#1{\def\thetitle{#1}}
+\title{}
+
+\def\author#1{\def\theauthor{#1}}
+\author{}
+
+\let\authors\author
+
+\def\subtitle#1{\def\thesubtitle{#1}}
+\let\thesubtitle\relax
+
+\def\editedby#1{\def\theauthor{Edited by\\
+#1}} 
+\editedby{}
+\def\edition#1{\def\theedition{#1}}
+\let\theedition\relax
+
+\def\halftitlepage{\thispagestyle{empty}
+{\raggedleft
+\halftitlefont \noindent \thetitle
+
+\newpage}}
+%%%
+\long\def\seriespage#1{\newpage
+\thispagestyle{empty}
+{\parindent=0pt
+{\seriestitlefont
+\vglue-12pt
+MIT Lincoln Laboratory Series\vrule depth 4pt width0pt}
+\hrule height .5 pt
+\vskip13pt
+#1
+\vfill
+}}
+
+\def\serieslist#1#2{{\baselineskip=12pt{\serieslistfont #1}
+\seriesauthorfont #2\vrule depth .25in width0pt}
+
+}
+\def\seriesauthorfont{\normalfont}
+
+
+\newif\ifdedication
+\def\dedication{\global\dedicationtrue\chapter*{Dedication}
+\thispagestyle{empty}\rm
+}
+
+\def\enddedication{\newpage\global\dedicationfalse\markboth{}{}}
+
+
+\newif\iftitle
+
+\def\preface{\chapter*{Preface}
+\global\titletrue}
+
+\let\endpreface\relax
+
+
+
+\def\abouttheauthors{\chapter*{About the Authors}
+\global\titletrue}
+
+
+\def\endabouttheauthors{\newpage\markboth{}{}}
+
+
+
+\def\acknowledgments{\chapter*{Acknowledgments}
+\global\titletrue}
+\def\endacknowledgments{\newpage\markboth{}{}}
+
+\let\acknowledgements\acknowledgments
+\let\endacknowledgements\endacknowledgments
+
+\def\preface{\chapter*{Preface}
+\global\titletrue}
+
+\let\endpreface\relax
+
+
+
+\let\savetabular\tabular
+\def\tabular{\let\raggedright\tabraggedright
+\tabletextfont
+\parindent=0pt
+\savetabular}
+
+\@namedef{tabular*}#1{\def\@halignto{to#1}
+\let\raggedright\tabraggedright
+\tabletextfont
+\parindent=0pt
+\@tabular}
+
+
+\def\topline{\noalign{\hrule height .5pt 
+\vskip6pt}}
+
+\def\midline{\noalign{\vskip3pt\hrule height .75pt 
+\vskip6pt}}
+
+
+\def\botline{\crcr\noalign{\vskip6pt\hrule height .5pt 
+\vskip3pt}}
+
+
+
+
+%%%%%
+%%%% side by side
+%%%% to use: 
+% \begin{figure or table} \sidebyside{}{} \end{figure or table}
+%
+% \begin{table} 
+% \sidebyside{\caption{table caption} first table}
+% {\caption{table caption} second table}
+% \end{table}
+
+% or
+
+% \begin{figure} 
+% \sidebyside{\vskip<dimen>\caption{fig caption}}
+% {\vskip<dimen>\caption{fig caption}}
+% \end{figure}
+
+%% To label for cross referencing, use \label after and <outside> of
+%% \caption{}
+
+% \begin{table} 
+% \sidebyside{\caption{table caption}\label{tab1}
+% first table}
+% {\caption{table caption}\label{tab2} second table}
+% \end{table}
+
+% or
+
+% \begin{figure} 
+% \sidebyside{\vskip<dimen>\caption{fig caption}\label{fig1}}
+% {\vskip<dimen>\caption{fig caption}\label{fig2}}
+% \end{figure}
+
+\long\def\sidebyside#1#2{%
+\hbox to\textwidth{\vtop{\hsize=.5\textwidth%
+\advance\hsize by -.5\columnsep
+\parindent=0pt
+\centering
+ 
+#1\vskip1sp}\hskip\columnsep\vtop{\hsize=.5\textwidth%
+\advance\hsize by -.5\columnsep
+\parindent=0pt
+\centering
+#2
+
+}\hfill}}
+
+\def\tablenotes{\vskip2pt\footnotesize}
+\let\endtablenotes\relax
+
+\newskip\iletterskip
+\iletterskip=8pt plus .1pt minus 2pt
+\def\iletter#1{\goodbreak\vskip\iletterskip{\sectionfont\uppercase{#1}\vrule depth 8pt width0pt}\nobreak}
+
+%%% easy way to do bold math
+\def\dobold#1{\hbox{\boldmath$\displaystyle #1$\unboldmath}}
+\let\mathbold\dobold
+
+%% make box around math in equation or display environment
+\def\boxit#1{{\fboxsep=6pt\ifmmode
+\fbox{$\displaystyle #1$}
+\else
+\vskip14pt{\centerline{\fbox{\vtop{\vskip-9pt\vskip1sp\advance\hsize-41pt #1\vskip-8pt}}}\vskip14pt}\fi}}
+
+\def\chapbibliography#1{%
+{\let\thebibliography\chapthebibliography
+\let\endthebibliography\endchapthebibliography
+\bibliography{#1}
+}}
+
+
+
+\def\listofcontributors{\parindent0pt
+\chapter*{List of Contributors}
+\long\def\intro##1{\global\setbox1=\vbox{##1}}
+\long\def\authorlist##1##2{{\baselineskip=12pt{\rm\noindent ##1}\\
+\it ##2\vrule depth 15.5pt width0pt}\vskip1sp}
+\global\setbox0=\vtop\bgroup
+}
+
+\def\endlistofcontributors{\egroup
+\begin{multicols}{2}[\vskip6pt\unvbox1\vskip-2pt]
+\unvbox0
+\end{multicols}\newpage\markboth{}{}}
+
+
+\newif\ifdedication
+\def\dedication{\global\dedicationtrue\chapter*{Dedication}
+\thispagestyle{empty}\rm
+}
+
+\def\enddedication{\newpage\global\dedicationfalse\markboth{}{}}
+
+\let\thechapbibliography\chapthebibliography
+
+\flushbottom
+
+% \parskip=0pt
+
+% \advance\hoffset-57pt
+% \advance\voffset-46pt
+% \textwidth=5in
+%\advance\textheight-11pt as indicated by MIT Press logo position in sample pages
+\def\indexspace{\vskip12pt}
+
+
+\newif\iffirstbio
+\global\firstbiotrue
+\def\bio#1#2{\iffirstbio\global\firstbiofalse
+\vglue-1pt
+\else
+\vskip12pt\fi
+\hangindent 1in
+\hangafter -6
+\noindent\llap{\vtop to 0pt{\vskip-9pt
+\hbox to1in{\includegraphics[width=.85in]{#1}
+\hfill}\vss}}{\bf #2}\ }
+
+
+%% only used for Part, chapter
+
+\def\l@schapter{%
+\vskip3pt
+\@dottedtocline{-1}{6pt}{.475in}}
+
+\def\l@chapter{%
+\vskip.0883in
+\vskip6pt
+\z@dottedtocline{-1}{21pt}{.475in}}
+
+\def\l@reference{%
+\vskip.0883in
+\zz@dottedtocline{-1}{21pt}{.475in}}
+
+\def\numberline#1{\noindent\llap{\hbox to 16pt{\hbox to 5.56pt{\hss#1}\hfill}}}
+
+\def\sectionnumberline#1{\noindent\llap{\hbox to 27pt{#1\hfill}}}
+\def\subsectionnumberline#1{\noindent\llap{\hbox to 37pt{#1\hfill}}}
+
+
+\def\chapnumberline#1{\hbox to .1in{\llap{\hb@xt@.25in{\hskip4pt\hbox to 5.56pt{\hss#1}\hfil}\hfill}}}
+
+\def\xnumberline#1{\hskip-1.5pt\hskip-.25in\relax#1\enskip\relax}
+
+
+\def\@dottedtocline#1#2#3#4#5{%
+\ifnum #1>\c@tocdepth \else
+\ifnum#1=-1\tocpartfont\fi
+\ifnum#1>-1\normalsize\tocrmfont\fi
+\baselineskip=13pt
+    \vskip \z@ \@plus.2\p@
+    {\leftskip=-12pt %\leftskip #2\relax 
+\rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindentfalse
+     \interlinepenalty\@M
+\hyphenpenalty10000
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima 
+\null\nobreak\hskip -\leftskip
+     {#4}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+     \par}%
+\fi
+\tocrmfont
+}
+
+% for chapter
+\def\z@dottedtocline#1#2#3#4#5{%
+\ifnum #1>\c@tocdepth \else
+\ifnum#1=-1\tocpartfont\fi
+\ifnum#1>-1\normalsize\tocrmfont\fi
+\baselineskip=13pt
+    \vskip \z@ \@plus.2\p@
+    {\leftskip=-12pt %\leftskip #2\relax 
+\rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindentfalse
+     \interlinepenalty\@M
+\hyphenpenalty10000
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima 
+\null\nobreak\hskip -\leftskip
+     \vtop{\advance\hsize-1in
+\advance\hsize-28pt
+\parindent=0pt
+\raggedright
+#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+     \par}%
+\fi
+\tocrmfont
+}
+
+%% for References (always chapter references)
+\def\zz@dottedtocline#1#2#3#4#5{%
+\tocrmfont
+    \vskip -\parskip
+    {\leftskip=-12pt %\leftskip #2\relax 
+\rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindentfalse
+     \interlinepenalty\@M
+\hyphenpenalty10000
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima 
+\null\nobreak\hskip -\leftskip
+References\hfill\hb@xt@\@pnumwidth{\hss
+\relax#5}%
+     \par}%
+\tocrmfont
+}
+
+% for section
+\def\x@dottedtocline#1#2#3#4#5{%
+\ifnum #1>\c@tocdepth \else
+\ifnum#1=-1\tocpartfont\fi
+\ifnum#1>-1\normalsize\tocrmfont\fi
+\baselineskip=13pt
+    \vskip \z@ \@plus.2\p@
+    {\leftskip=-12pt %\leftskip #2\relax 
+\rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindentfalse
+     \interlinepenalty\@M
+\hyphenpenalty10000
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima 
+\null\nobreak\hskip -\leftskip
+     \vtop{\advance\hsize-1.25in
+\advance\hsize-28pt
+\parindent=0pt
+\raggedright
+#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+     \par}%
+\fi
+\tocrmfont
+}
+
+% for subsection
+\def\y@dottedtocline#1#2#3#4#5{%
+\ifnum #1>\c@tocdepth \else
+\ifnum#1=-1\tocpartfont\fi
+\ifnum#1>-1\normalsize\tocrmfont\fi
+\baselineskip=13pt
+    \vskip \z@ \@plus.2\p@
+    {\leftskip=-12pt %\leftskip #2\relax 
+\rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindentfalse
+     \interlinepenalty\@M
+\hyphenpenalty10000
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima 
+\null\nobreak\hskip -\leftskip
+     \vtop{\advance\hsize-1.75in
+\advance\hsize-28pt
+\parindent=0pt
+\raggedright
+#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+     \par}%
+\fi
+\tocrmfont
+}
+
+
+%\renewcommand\flrow@makecaption[2]{\ifnum\floatbox@depth=\z@
+%    \ifvoid\@floatcapt
+%      \else\flrow@error{Caption(s) lost}\fi\fi
+%  \global\setbox\@floatcapt
+%  \vbox\bgroup\@parboxrestore
+%   \reset@font
+%   \if@@FS
+%      \ifdim\FBc@wd>\z@
+%        \hsize\FBc@wd
+%      \else
+%        \adj@dim\hsize+\FBo@wadj=\hsize
+%      \fi
+%   \fi
+%   \linewidth\hsize
+%   \ifdim\hsize<70mm\sloppy\fi
+%   \normalsize
+%   \abovecaptionskip\z@\belowcaptionskip\z@
+%    \vspace{-5mm}
+%   \FR@makecaption{#1}{#2}\egroup}
+
+
+
+\def\blx@dlist@type{}
+\def\blx@dlist@name{}
+
+%% 追加
+\RequirePackage{xparse}
+%% 章見出しに著者名を追加 [#1], (#2)は省略可
+%% \chapter[ouput header and tocline](author name){title}
+%% \chapter*{title}
+%% \ChapterAuthor=著者名
+%% \KBtmpMacAA=柱と目次の一時的な収納マクロ
+\RenewDocumentCommand\chapter{s o d() m}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \IfValueTF{#3}{\def\ChapterAuthor{#3}}{\def\ChapterAuthor{noAuthor}}%
+  \IfValueTF{#2}{\gdef\KBtmpMacAA{#2}}{\gdef\KBtmpMacAA{#4}}%
+  \thispagestyle{empty}%
+  \global\@topnum\z@
+%  \@afterindentfalse
+\global\advance\@chapterid\@ne% for multicite.sty, multilabel.sty
+\xdef\@ref@prefix{refPrefixID\the\@chapterid:}
+  \@afterindenttrue
+   \IfBooleanTF{#1}{%
+\if@table@of@contents@@
+   \@make@toc@chapterhead{#4}\@table@of@contents@@false\else
+      \if@the@bibliography@@
+         \@make@bib@chapterhead{#4}\@the@bibliography@@false\else
+                   \@makeschapterhead{#4}\fi\fi
+\@afterheading
+}{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter\space\@chappos}%
+    \addcontentsline{toc}{chapter}%
+	     {\protect\numberline{\@chapapp\thechapter\@chappos}\KBtmpMacAA}%
+    \else\addcontentsline{toc}{chapter}{\KBtmpMacAA}\fi
+	 \else
+    \addcontentsline{toc}{chapter}{\KBtmpMacAA}%
+  \fi
+  \chaptermark{\KBtmpMacAA}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+\if@appendix@@
+  \@make@appendix@chapterhead{#4}%%\@appendix@@false
+  \else
+  \@makechapterhead{#4}%
+  \fi
+\@afterheading}}
+\endinput
