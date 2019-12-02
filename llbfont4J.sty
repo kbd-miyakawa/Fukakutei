@@ -1,0 +1,238 @@
+%% Version: May 27, 2014
+%% Version: Jan 25, 2014
+%% Version: November 15, 2012
+
+% %\usepackage{fontspec}
+% \usepackage{graphicx}
+% %\usepackage{garamondx}
+% %\usepackage[garamond]{mathdesign}
+% \usepackage{helvet}
+% \usepackage[utf8]{inputenc}
+% \usepackage[OT1,T1]{fontenc}
+% \usepackage{textcomp}
+% \usepackage{lmodern}
+% \usepackage{bm}
+
+\let\endlossort\relax
+%\setmainfont[Ligatures=TeX, WordSpace=1.05, Path = \myfontpath/ ,
+%UprightFont= AGaramondPro-Regular ,
+%BoldFont=AGaramondPro-Bold ,
+%ItalicFont=AGaramondPro-Italic
+%]
+%{AGaramondPro-Regular}
+
+%\setsansfont[Ligatures=TeX, Path = \myfontpath/ ]
+%{HelveticaNeueLTStd-lt}
+
+%\newfontfamily\bit[Ligatures=TeX, Path = \myfontpath/ ]
+%{GaramondPremrPro-BdIt}
+
+%halftitlefont = helvn bold condensed 10/12
+\def\halftitlefont{\fontsize{18}{22}\sffamily%
+}
+
+
+
+%halfsubtitlefont = helv n cond oblique 9/12
+\def\halfsubtitlefont{\fontsize{10}{13}\sffamily\itshape
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-It} 
+}
+
+%seriestitle = hel cond 10/12
+\def\seriestitlefont{\fontsize{11}{13}\sffamily
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Md} 
+}
+
+%serieslist = hel neue medium 8/12
+\def\serieslistfont{\fontsize{11}{13}\itshape
+%\fontspec[ Path = \myfontpath/ ]{AGaramondPro-Italic}
+}
+
+%(author font, default garamond)
+%\def\seriesauthorfont{\normal\rm}
+\def\seriesauthorfont{\normalfont}
+
+%titlefont - hel rm 23/28
+\def\titlefont{\fontsize{23}{28}\sffamily
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman} 
+}
+
+%sub titlefont - hel rm 13/18
+\def\subtitlefont{\fontsize{13}{18}\sffamily
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman} 
+}
+
+%titleauthorfont - hel it 10/14
+\def\titleauthorfont{\fontsize{10}{14}\sffamily\itshape
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-It} 
+}
+
+%editionfont 9/12
+\def\editionfont{\fontsize{10}{14}\sffamily\itshape
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Cn} 
+}
+
+\def\pressinfofont{\fontsize{9.5}{13.5}\selectfont
+%\fontspec[ Path = \myfontpath/ ]{AGaramondPro-Regular} 
+}
+
+%copyright title, helv medium 7/10
+\def\copyrighttitlefont{\fontsize{7}{10}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+}
+\def\copyrighttextfont{\fontsize{9.5}{13.5}\selectfont
+%\fontspec[ Path = \myfontpath/ ]{AGaramondPro-Regular}
+}
+
+\def\authorlistfont{\fontsize{9}{12}\sffamily
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Md} 
+}
+
+%===
+%toc
+
+%toctitle hel bd cond 12/12
+\def\toctitlefont{\fontsize{12}{14}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+}
+
+%tocparttitle " 10/12
+\def\tocpartfont{\fontsize{10}{13}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+}
+
+%tocchaptitle " 10/12
+\def\tocchapfont{%
+\fontsize{10}{13}\sffamily
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman} 
+}
+
+% schapter title
+\let\tocschapfont\tocpartfont
+
+
+\def\tocfoliofont{\fontsize{10}{13}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+}
+
+\def\tocrmfont{\fontsize{10}{13}\sffamily\mdseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman} 
+}
+
+
+
+%==========
+
+% foliofont h cond 7pt
+% 24pt below bottom margin
+\def\foliofont{\fontsize{8.5}{10.5}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman}
+}
+
+\def\runningheadfont{\fontsize{8.5}{10.5}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman}
+	}
+
+
+%NOTE: `section title' in specs is `part title' in Latex
+
+%partfont = hn bold cond 12/15
+\def\parttitlefont{\fontsize{12}{15}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+}
+
+%chapter*  (not for Toc, though) h b  10/12
+% chapter too
+\def\chaptitlefont{\fontsize{12}{14}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+\let\it\chaptitleitalicfont
+}
+
+\def\authortitlefont{\fontsize{12}{14}\sffamily\bfseries
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd} 
+\let\it\chaptitleitalicfont
+}
+
+% chapter title italic H B Italic 10/12
+\def\chaptitleitalicfont{\fontsize{12}{14}\sffamily\bfseries\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-BdIt}
+}
+
+\def\sectionfont{\fontsize{10.5}{12}\sffamily\bfseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
+}
+
+\def\refappfont{\fontsize{10}{12}\sffamily\bfseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
+}
+
+\def\sectionitfont{\fontsize{10}{12}\sffamily\bfseries\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-BdIT}
+}
+
+\def\subsectionfont{\fontsize{10}{11}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Md}
+}
+
+\def\subsectionitfont{\fontsize{10}{11}\sffamily\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-MdIT}
+}
+
+\def\subsubsectionfont{\fontsize{10}{11}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-MdCn}
+}
+
+\def\subsubsectionitfont{\fontsize{10}{12}\sffamily\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-MdCnIt}
+}
+
+\def\paragraphfont{\fontsize{10}{12}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-LtCn}
+}
+
+\def\paragraphitfont{\fontsize{10}{12}\sffamily\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-LtCnO}
+}
+
+
+\def\captionfont{\let~\relax\fontsize{9}{11}\sffamily\bfseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
+}
+
+
+\def\captionfont{\let~\relax\fontsize{9}{11}\sffamily\bfseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
+}
+
+\def\captiontextfont{\fontsize{9}{11}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman}
+}
+
+\def\captiontextitfont{\fontsize{9}{11}\sffamily\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-It}
+}
+
+
+\def\captiontextbffont{\fontsize{9}{11}\sffamily\bfseries\itshape%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
+}
+
+\let\footnotetextfont\captiontextfont
+\let\footit\captiontextitfont
+\let\footbf\captiontextbffont
+
+\def\colheadfont{\fontsize{8}{10.5}\sffamily\mdseries%
+%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Md}
+}
+
+\def\tabletextfont{\fontsize{9}{11}\selectfont
+%\fontspec[Ligatures=TeX, WordSpace=1.05, Path = \myfontpath/ ,
+%UprightFont= AGaramondPro-Regular ,
+%BoldFont=AGaramondPro-Bold ,
+%ItalicFont=AGaramondPro-Italic
+%]{AGaramondPro-Regular}
+}
+
+\DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
+%\usepackage[adobe-garamond]{mathdesign}
+\usepackage{microtype}

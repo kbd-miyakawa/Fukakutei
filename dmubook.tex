@@ -1,0 +1,169 @@
+%% Original LuaLaTeX to uplatex (utf8)
+%%\RequirePackage{luatex85}
+%\let\Smintue\minute
+\documentclass[dvipdfmx,uplatex,useotf]{dmubookJ}
+%\let\SSmintue\minute
+%\let\minute\Smintue
+
+
+% \newdimen\textheightA
+% \setlength{\textheightA}{29\baselineskip}
+% \addtolength{\textheightA}{1\Cht}
+% \usepackage[a5paper,
+% text={35zw,\textheightA},centering
+% %lmargin=25mm,rmargin=25mm,tmargin=30mm,bmargin=30mm
+% ]{geometry}
+% \usepackage[tombow-a4]{gentombow}
+% \usepackage{bounddvi}
+
+%\let\minute\SSmintue
+
+
+%%\let\Dmuminute\minute
+%%\let\minute\Saveminute
+%%\usepackage[tombow-a4,notombowdate]{gentombow}
+%%\let\minute\Dmuminute
+\listfiles
+%\usepackage[style=ieee,refsection=chapter,backend=bibtex,mincitenames=1]{biblatex}
+\usepackage[style=ieee,refsection=chapter,backend=bibtex,mincitenames=1]{biblatex}
+\input{references}
+
+\isbnnumber{xxxxxxxxxx}
+\locnumber{xxxxxxxxxx}
+\copyrightyear{2015}
+
+\title{Decision Making Under Uncertainty}
+\subtitle{Theory and Application}
+
+\author{Mykel J. Kochenderfer\\[0.5cm] \textit{with contributions from}\\Christopher Amato\\Girish Chowdhary\\Jonathan P. How\\Hayley J. Davison Reynolds\\Jason R. Thornton\\Pedro A. Torres-Carrasquillo\\N. Kemal \"Ure\\John Vian}
+
+
+
+%\edition{First Edition}
+
+%\makeatletter
+%\long\def\docropmarks{%
+%  \let\saveshipout\shipout
+%  \long\def\shipout\vbox##1{%
+%      \global\setbox\@outputbox\vbox{##1}%
+%      \saveshipout\vbox{\topcropmarks\box\@outputbox \bottomcropmarks}}}
+%\makeatother
+\let\lossort\relax
+\allowdisplaybreaks
+\begin{document}
+%\docropmarks
+\halftitlepage
+
+\seriespage{
+	
+\serieslist{Perspectives on Defense Systems Analysis: The What, the Why, and the Who, but Mostly the How of Broad Defense Systems Analysis,}{William P. Delaney}
+\serieslist{Ultrawideband Phased Array Antenna Technology for Sensing and Communications Systems,}{Alan J. Fenn and Peter T. Hurst}
+\serieslist{Decision Making Under Uncertainty: Theory and Application,}{Mykel J. Kochenderfer}
+\serieslist{Applied State Estimation and Association,}{Chaw-Bing Chang and Keh-Ping Dunn}
+	
+\vfill
+
+MIT Lincoln Laboratory is a federally funded research and development center that applies advanced technology to problems of national security. The books in the \textit{MIT Lincoln Laboratory Series} cover a broad range of technology areas in which Lincoln Laboratory has made leading contributions. The books listed above and future volumes in this series renew the knowledge-sharing tradition established by the seminal \textit{MIT Radiation Laboratory Series} published between 1947 and 1953.
+
+}%% end of series page
+
+\titlepage
+\copyrightpage
+
+%~\vspace{3in}\\
+%\begin{center}
+%	\textit{To my family}
+%\end{center}
+
+\begin{dedication}
+To my family.
+\end{dedication}
+
+\tableofcontents
+
+\thispagestyle{empty}
+\newpage
+
+\begin{preface}
+This book provides an introduction to decision making under uncertainty from a computational perspective. The aim of the first part of the book is to familiarize the reader with the foundations of probabilistic models and decision theory. The second part of the book discusses the application of the theory to problems relevant to a variety of mission areas. The subject of decision making under uncertainty is quite broad and has its origins in several different fields. The text aims to be as concise as possible, providing references to additional material that may be relevant to a wide set of applications.
+
+The target audience for this book includes advanced engineering undergraduate and graduate students as well as professionals. Disciplines for which the book would be especially useful include computer science, aerospace, electrical engineering, and operations research. The text is intended to be introductory in nature. Although algorithms are outlined in the text, proofs are omitted. The book requires some mathematical maturity and assumes some prior exposure to probability theory and calculus. The first five chapters can be used as the basis of an undergraduate or graduate course. The topics in Chapters 6 and 7 are more appropriate for the graduate level.
+
+The book was written over the course of two years while I was at Lincoln Laboratory, a federally funded research and development center of the Massachusetts Institute of Technology. While teaching a course on decision making under uncertainty, I was invited by a member of the Lincoln Laboratory book series to prepare a volume. Much of the material in this book originated from the course. The later part of the course consisted of guest lectures from researchers from Lincoln Laboratory and campus with the aim to show how the principles and techniques discussed in the first part of the course can be applied to problems of national interest. Some of these guest lectures have become chapters in this book.
+
+\vspace{1cm}
+
+\noindent \textsc{Mykel J. Kochenderfer}
+
+\noindent Stanford, Calif.\\
+February 6, 2015
+
+\vfill
+
+\noindent \normalfont Ancillary material is available on the book's webpage:\\ \url{http://mitpress.mit.edu/decision-making-under-uncertainty}
+
+\end{preface}
+
+
+\begin{abouttheauthors}
+\bio{authors/kochenderfer.jpg}{Mykel J. Kochenderfer} is an assistant professor in the Department of Aeronautics and Astronautics at Stanford University. Prior to joining the faculty at Stanford, he was a staff member at MIT Lincoln Laboratory. He received BS and MS degrees in computer science from Stanford University and a doctorate from the University of Edinburgh. His current research activities include airspace modeling and aircraft collision avoidance. In 2011, Prof.~Kochenderfer was awarded the Lincoln Laboratory Early Career Technical Achievement Award for recognition
+of his development of a new collision avoidance system and advanced techniques for improving air traffic safety. He was involved in artificial intelligence research at Rockwell Scientific, the Honda Research Institute, and Microsoft Research. He is a third-generation pilot.
+
+\bio{authors/amato.jpg}{Christopher Amato} is an assistant professor at Northeastern University. He received a BA from Tufts University and an MS and a PhD from the University of Massachusetts, Amherst. Before joining Northeastern, he was a research scientist at Aptima, Inc. and a postdoc and research scientist at MIT, and an assistant professor at the University of New Hampshire. His research interests include decision making under uncertainty, machine learning, and multi-agent systems. 
+
+\bio{authors/chowdhary.jpg}{Girish Chowdhary}  is an assistant professor at the University of Illinois at Urbana Champaign. He received his MS and PhD degrees from Georgia Institute of Technology. He was a postdoctoral researcher at Georgia Institute of Technology and MIT. He also has research experience at the German Aerospace Center's Institute of Flight Systems. His ongoing research interest is in creating provable algorithms to enable intelligent adaptive autonomy for large-scale and long-duration operation involving collaborating mobile agents. He has authored more than 90 peer reviewed papers in the areas of adaptive control, system identification, distributed sensing and inference, and mission planning, and is the winner of the Air Force Young Investigator award and ACGSC Dave Ward memorial award.
+
+%is an assistant professor at the school of Mechanical and Aerospace Engineering at the Oklahoma State University. He received his MS and PhD degrees from Georgia Institute of Technology. He was a postdoctoral researcher  at  Georgia Institute of Technology and MIT.  He also has research experience at the German Aerospace Center's Institute of Flight Systems. His ongoing research interest is in creating provable algorithms to enable intelligent adaptive autonomy for large-scale and long-duration operation involving collaborating mobile agents. He has authored more than 50 peer reviewed papers in the areas of adaptive control, system identification, distributed sensing and inference, and mission planning. %He has research experience in other domains employing autonomous systems technology as well, including manned aircraft, surface vehicles, and applications in the Energy industry. %He is a member of IEEE and AIAA.
+
+\newpage
+
+\bio{authors/how.jpg}{Jonathan P. How} is a professor in the Department of Aeronautics and Astronautics at MIT. He received a BA Sc from the University of Toronto in 1987 and his SM and PhD in aeronautics and astronautics from MIT in 1990 and 1993, respectively. How studied for two years as a postdoctoral associate for the Middeck Active Control Experiment, which flew on board the Space Shuttle Endeavour. Prior to joining the faculty at MIT in 2000, he was an assistant professor in the Department of Aeronautics and Astronautics at Stanford University. Among his other achievements, Prof.~How was the planning and control lead for the MIT DARPA Urban Challenge team, was the recipient of the 2002 Institute of Navigation Burka Award, and received a Boeing Special Invention award in 2008. %How is also the Raymond L. Bisplinghoff Fellow for MIT Aero/Astro Department, an Associate Fellow of AIAA, and a senior member of IEEE.
+
+
+\bio{authors/reynolds.jpg}{Hayley J. Davison Reynolds} has been a technical staff member at MIT Lincoln Laboratory since 2009.  She previously worked for Instrata, Ltd. in Cambridge, UK, as a human-computer interaction consultant for Microsoft, Yahoo, and the London 2012 Olympic Committee.  She received her PhD in aeronautical systems and applied psychology and SM in aeronautics and astronautics from MIT in 2006 and 2001, respectively.  She received her BS in psychology from the University of Illinois in 1999.  Her research interests include human-systems integration of complex systems in aviation and biosurveillance, and any messy human-systems problems in general.  
+
+\bio{authors/thornton.jpg}{Jason R. Thornton} is an assistant group leader in the Informatics and Decision Support Group at MIT Lincoln Laboratory.  He received a BS degree in computer science from the University of California at Irvine and MS and PhD degrees in electrical and computer engineering from Carnegie Mellon University, where he was awarded the A.G. Milnes Award for an electrical and computer engineering thesis of the highest quality in 2007.  His work at Lincoln Laboratory includes research related to sensor fusion, image and video processing, and probabilistic models.  In 2012, he received the Lincoln Laboratory Early Career Technical Achievement Award for his development of novel video processing techniques.
+
+\newpage
+
+\bio{authors/torres-carrasquillo.jpg}{Pedro A. Torres-Carrasquillo} joined the Information Systems Technology Group, currently Human Language Technology Group, at MIT Lincoln Laboratory in 2002 as a technical staff member. At Lincoln Laboratory, he has been involved in a number of areas related to information extraction from speech, including language, dialect, and speaker recognition. His current areas of interest include automatic dialect recognition by combining multiple knowledge sources and speaker recognition in low-data conditions focusing on forensic speaker recognition. Recently, he has been overseeing the development of software tools for speaker recognition.  Dr. Torres-Carrasquillo received a BS degree from the University of Puerto Rico at Mayaguez in 1992, an MS degree from Ohio State University in 1995, and a PhD degree from Michigan State University in 2002, all in electrical engineering.
+
+\bio{authors/ure2.jpg}{N. Kemal \"Ure} is an assistant professor in the Department of Aeronautical Engineering at  Istanbul Technical University. He received his BSc and MS degrees from Istanbul Technical University and a doctoral degree in Aeronautics and Astronautics from the MIT. His research interests include multiagent learning and control of agile autonomous vehicles. 
+
+\bio{authors/vian.jpg}{John Vian} is a technical fellow at Boeing Research and Technology, responsible for leading multivehicle autonomous systems research. He has 30 years of experience in flight controls, autonomous systems, and vehicle health management. Dr. Vian received a BS from Purdue and MS and PhD degrees from Wichita State University. He has taught at Embry-Riddle Aeronautical University and Cogswell College.
+
+\end{abouttheauthors}
+
+
+\begin{acknowledgments}
+Throughout the process of preparing this manuscript for the Lincoln Laboratory book series, Jim Ward and Dave Martinez have been very generous with their time in helping me. The final draft benefited greatly from Dorothy Ryan's careful copyediting.
+
+
+Over the past two years, a number of colleagues and friends have made comments and suggestions on early drafts, including Jonathan Christensen, James Chryssanthacopoulos, Louis Dressel, Ann Drumm, Ryan Gardner, Lucas Hansen, Jeremy Kepner, Youngjun Kim, Mary Anne Kochenderfer, Jim Kuchar, Robert Moss, Wes Olson, Carl Quillen, Dorothy Ryan, Josh Silbermann, Tan Trinh, Michael Watson, and Chulhee Yun.
+
+\Cref{chapter:coop} is extended from a series of tutorials developed with Shlomo Zilberstein and Matthijs Spaan. \Cref{chapter:video search} discusses research activities funded by the Assistant Secretary of Defense for Research and Engineering. \Cref{chapter:collision avoidance} describes research funded by the Federal Aviation Administration under the direction of Neal Suchy. \Cref{chapter:persistent surveillance} discusses research supported by Boeing Research \& Technology. 
+
+The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of the U.S. government.
+\end{acknowledgments}
+
+\input{introduction/introduction_text}
+\part{Theory}
+\input{probabilistic_models/probabilistic_models_text}%見本組
+\end{document}
+    \input{decision_problems/decision_problems_text}
+    \input{sequential_problems/sequential_problems_text}
+    \input{model_uncertainty/model_uncertainty_text}
+    \input{state_uncertainty/state_uncertainty_text}
+    \input{cooperative/cooperative_text}
+\part{Application}
+    \input{video_surveillance/video_surveillance_text}
+    \input{speech/speech_text}
+    % \input{collision_avoidance/collision_avoidance_text}
+    \input{collision_avoidance/collision_avoidance_text}
+    \input{persistent_surveillance/persistent_surveillance_text}
+    \input{integrating_humans/integrating_humans_text}
+\printbibliography
+\printindex
+
+\end{document}
+
