@@ -64,7 +64,7 @@
 %\RequirePackage{llbfont4b}
 \RequirePackage{llbfont4J}
 
-\def\captionfont{\let~\relax\fontsize{8}{11}\bfseries%
+\def\captionfont{\let~\relax\fontsize{8}{11}\Pxfont%
 %\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
 }
 \def\captiontextfont{\fontsize{8}{11}\sffamily\mdseries%
