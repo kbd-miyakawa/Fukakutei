@@ -1,3 +1,4 @@
+%% added 
 %\def\sortlist[#1]#2{}{}
 %\def\endsortlist{}
 
@@ -86,8 +87,8 @@
     \KB@Hline
      \hfill\KBchapterfont\parbox[t]{\kb@chaptertextwidth}{\raggedleft%
      #1}\hskip10Q\rule[1zw]{0pt}{16H}\\[5mm]
-     \multicolumn{1}{r}{%
-     \normalsize\itshape\ChapterAuthor}
+     \multicolumn{1}{r}{%                 added: author name 2019-12-02
+     \normalsize\itshape\ChapterAuthor}%  
      \end{tabular}
      \par\vfill\fi}}%
 }
@@ -549,21 +550,21 @@ References\hfill\hb@xt@\@pnumwidth{\hss
 %   \FR@makecaption{#1}{#2}\egroup}
 
 
-
 \def\blx@dlist@type{}
 \def\blx@dlist@name{}
+%%%%%%%%%%%%%%%
 
-%% 追加
+%% 追加 2019-12-02
 \RequirePackage{xparse}
 %% 章見出しに著者名を追加 [#1], (#2)は省略可
-%% \chapter[ouput header and tocline](author name){title}
-%% \chapter*{title}
-%% \ChapterAuthor=著者名
-%% \KBtmpMacAA=柱と目次の一時的な収納マクロ
-\RenewDocumentCommand\chapter{s o d() m}{%
+%% \chapter[柱目次転写](著者名){タイトル}
+%% \chapter*{タイトル}
+%%%% \ChapterAuthor=著者名
+%%%% \kb@tmp@SChapter=柱と目次の一時収納
+\RenewDocumentCommand\chapter{ s o d() m }{%
   \if@openright\cleardoublepage\else\clearpage\fi
-  \IfValueTF{#3}{\def\ChapterAuthor{#3}}{\def\ChapterAuthor{noAuthor}}%
-  \IfValueTF{#2}{\gdef\KBtmpMacAA{#2}}{\gdef\KBtmpMacAA{#4}}%
+  \IfValueTF{#3}{\def\ChapterAuthor{#3}}{\def\ChapterAuthor{no name}}%
+  \IfValueTF{#2}{\def\kb@tmp@SChapter{#2}}{\def\kb@tmp@SChapter{#4}}%
   \thispagestyle{empty}%
   \global\@topnum\z@
 %  \@afterindentfalse
@@ -571,29 +572,34 @@ References\hfill\hb@xt@\@pnumwidth{\hss
 \xdef\@ref@prefix{refPrefixID\the\@chapterid:}
   \@afterindenttrue
    \IfBooleanTF{#1}{%
-\if@table@of@contents@@
-   \@make@toc@chapterhead{#4}\@table@of@contents@@false\else
-      \if@the@bibliography@@
-         \@make@bib@chapterhead{#4}\@the@bibliography@@false\else
-                   \@makeschapterhead{#4}\fi\fi
-\@afterheading
+     \if@table@of@contents@@
+        \@make@toc@chapterhead{#4}\@table@of@contents@@false
+   \else
+        \if@the@bibliography@@
+        \@make@bib@chapterhead{#4}\@the@bibliography@@false
+        \else
+        \@makeschapterhead{#4}
+        \fi
+   \fi
 }{%
   \ifnum \c@secnumdepth >\m@ne
-    \if@mainmatter
-    \refstepcounter{chapter}%
-    \typeout{\@chapapp\space\thechapter\space\@chappos}%
-    \addcontentsline{toc}{chapter}%
-	     {\protect\numberline{\@chapapp\thechapter\@chappos}\KBtmpMacAA}%
-    \else\addcontentsline{toc}{chapter}{\KBtmpMacAA}\fi
-	 \else
-    \addcontentsline{toc}{chapter}{\KBtmpMacAA}%
-  \fi
-  \chaptermark{\KBtmpMacAA}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
-\if@appendix@@
-  \@make@appendix@chapterhead{#4}%%\@appendix@@false
+   \if@mainmatter
+     \refstepcounter{chapter}%
+     \typeout{\@chapapp\space\thechapter\space\@chappos}%
+      \addcontentsline{toc}{chapter}%
+           {\protect\numberline{\@chapapp\thechapter\@chappos}\kb@tmp@SChapter}%
+    \else
+      \addcontentsline{toc}{chapter}{\kb@tmp@SChapter}%
+    \fi
   \else
-  \@makechapterhead{#4}%
+     \addcontentsline{toc}{chapter}{\kb@tmp@SChapter}%
   \fi
-\@afterheading}}
+  \chaptermark{\kb@tmp@SChapter}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@appendix@@
+     \@make@appendix@chapterhead{#4}%%\@appendix@@false
+  \else
+     \@makechapterhead{#4}%
+  \fi
+}\@afterheading}
 \endinput
