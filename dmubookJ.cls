@@ -63,18 +63,12 @@
   
 %\RequirePackage{llbfont4b}
 \RequirePackage{llbfont4J}
-
-\def\captionfont{\let~\relax\fontsize{8}{11}\Pxfont%
-%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Bd}
-}
-\def\captiontextfont{\fontsize{8}{11}\sffamily\mdseries%
-%\fontspec[ Path = \myfontpath/ ]{HelveticaNeueLTStd-Roman}
-}
-
+%% \captionのフォント（llbfont4J.sty内の再定義）
+\def\captionfont{\let~\relax\fontsize{8}{11}\Pxfont}
+\def\captiontextfont{\fontsize{8}{11}\sffamily\mdseries}
 
 %トンボ
 % \RequirePackage[a4]{crop}
-
 
 % 用途不明
 \def\pfill{\unskip~\dotfill\penalty500 
