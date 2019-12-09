@@ -109,7 +109,9 @@
     \else\hbox{}\fi\\
     \KB@Hline
      \hfill\KBchapterfont\parbox[t]{\kb@chaptertextwidth}{\raggedleft%
-     #1}\hskip10Q\rule[1zw]{0pt}{16H}\\[5mm]
+     \textcolor{red}{\rule[1zh]{0pt}{3mm}}%
+     #1\textcolor{red}{\rule[-5mm]{0pt}{3mm}}%
+     }\kern10Q\null\\
      \multicolumn{1}{r@{\hskip15Q}}{%                 added: author name 2019-12-02
      \ChapterAuthorFont\ChapterAuthor}%  
      \end{tabular}
