@@ -1,4 +1,6 @@
-%% added 
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{kmac}[2019/12/10 v0.12]
+\RequirePackage{xparse}
 %\def\sortlist[#1]#2{}{}
 %\def\endsortlist{}
 
@@ -112,7 +114,9 @@
      \textcolor{red}{\rule[1zh]{0pt}{3mm}}%
      #1\textcolor{red}{\rule[-5mm]{0pt}{3mm}}%
      }\kern10Q\null\\
-     \multicolumn{1}{r@{\hskip15Q}}{%                 added: author name 2019-12-02
+     % added: author name 2019-12-02
+     % modify: 縦罫追加   2019/12/10
+     \multicolumn{1}{r@{\hskip15Q}v}{
      \ChapterAuthorFont\ChapterAuthor}%  
      \end{tabular}
      \par\vfill\fi}}%
@@ -580,7 +584,6 @@ References\hfill\hb@xt@\@pnumwidth{\hss
 %%%%%%%%%%%%%%%
 
 %% 追加 2019-12-02
-\RequirePackage{xparse}
 %% 章見出しに著者名を追加 [#1], (#2)は省略可
 %% \chapter[柱目次転写](著者名){タイトル}
 %% \chapter*{タイトル}
