@@ -1,5 +1,5 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{kmac}[2019/12/10 v0.12]
+\ProvidesPackage{kmac}[2019/12/17 v0.13]
 \RequirePackage{xparse}
 %\def\sortlist[#1]#2{}{}
 %\def\endsortlist{}
@@ -33,15 +33,23 @@
    {\KBparagraphfont ■}}
 %% chapter setting
 % font
+%% %% 章番号を拡大の下請け #1=scale, #2=scale対象
+\newcommand{\kbdfontscale}[2]{{\setlength{\dimen1}{\f@size\p@}
+\setlength{\dimen1}{#1\dimen1}\fontsize{\dimen1}{\baselineskip}\selectfont#2}}
  \DeclareRobustCommand*\KBchapterfont{\reset@font\fontsize{28Q}{35H}\bfs}
  \DeclareRobustCommand*\KBchapternumfont{\reset@font\fontencoding{OT1}\romanfamily{ccr}\fontsize{50Q}{0pt}\gtfamily}
-
+%% 目次項目のフォント
+ \DeclareRobustCommand*\KBtocpartfont{\reset@font\fontsize{12pt}{35H}\bfseries}
+ \DeclareRobustCommand*\KBtocnumpartfont{\reset@font\fontsize{12pt}{35H}\bfseries}
+ \DeclareRobustCommand*\KBtocchapterfont{\reset@font\fontsize{12pt}{35H}\bfseries}
+ \DeclareRobustCommand*\KBtocnumchapterfont{\reset@font\fontsize{12pt}{35H}\bfseries}
 %% Concrete font -> \thechpater
 % \DeclareFontFamily{T1}{ccr}{}
 \DeclareFontFamily{OT1}{ccr}{\hyphenchar\font45 }
 % \DeclareFontShape{T1}{ccr}{m}{n}{<->[1.537] eorm10}{}
-\DeclareFontShape{OT1}{ccr}{m}{n}{<->[1.537] ccr10}{}
-
+%% Concrete fontの和文用補正
+\DeclareFontShape{OT1}{ccr}{m}{n}{<->[1.056] ccr10}{}
+\DeclareRobustCommand{\FontCcr}{\fontencoding{OT1}\romanfamily{ccr}\gtfamily}
 \Med@arrayrulewidth0.4mm%% 中太罫
 \def\KB@Hline{\noalign{\global\arrayrulewidth0.4mm}\hline\noalign{\global\arrayrulewidth\save@arrayrulewidth}}
 \def\TC{%
@@ -107,7 +115,7 @@
 \toplinebox{10}{%
    \ifnum \c@secnumdepth >\m@ne
 \begin{tabular}{@{}p{\textwidth}@{}v}
-    \if@mainmatter\KBchapternumfont\@chapapp\thechapter\@chappos
+    \if@mainmatter\KBchapternumfont\@chapapp\kbdfontscale{1.484}{\thechapter}\@chappos
     \else\hbox{}\fi\\
     \KB@Hline
      \hfill\KBchapterfont\parbox[t]{\kb@chaptertextwidth}{\raggedleft%
@@ -121,11 +129,71 @@
      \end{tabular}
      \par\vfill\fi}}%
 }
-
 \let\@make@appendix@chapterhead\@makechapterhead
+\def\@makeschapterhead#1{{\parindent\z@\reset@font
+\toplinebox{7}{\vfill
+     \centering\KBchapterfont\@inhibitglue#1\par\vfill}%
+   }}
+\let\@make@toc@chapterhead\@makeschapterhead
+\let\@make@bib@chapterhead\@makeschapterhead
+\let\@make@index@chapterhead\@makeschapterhead
+
+\renewcommand{\tableofcontents}{%
+\@table@of@contents@@true
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\contentsname}%
+    \@mkboth{\contentsname}{\contentsname}
+    \vspace{-\l@chapter@@skip}%
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+}
+
 
 \renewcommand{\emph}[1]{\textsf{\textgt{#1}}}
 
+%% 追加 2019-12-02
+%% 章見出しに著者名を追加 [#1], (#2)は省略可
+%% \chapter[柱目次転写](著者名){タイトル}
+%% \chapter*{タイトル}
+%%%% \ChapterAuthor=著者名
+%%%% \kb@tmp@SChapter=柱と目次の一時収納
+\RenewDocumentCommand\chapter{ s o d() m }{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \IfValueTF{#3}{\def\ChapterAuthor{#3}}{\def\ChapterAuthor{no name}}%
+  \IfValueTF{#2}{\def\kb@tmp@SChapter{#2}}{\def\kb@tmp@SChapter{#4}}%
+  \thispagestyle{empty}%
+  \global\@topnum\z@
+%  \@afterindentfalse
+\global\advance\@chapterid\@ne% for multicite.sty, multilabel.sty
+\xdef\@ref@prefix{refPrefixID\the\@chapterid:}
+  \@afterindenttrue
+   \IfBooleanTF{#1}{%
+\if@table@of@contents@@
+   \@make@toc@chapterhead{#4}\@table@of@contents@@false\else
+      \if@the@bibliography@@
+         \@make@bib@chapterhead{#4}\@the@bibliography@@false\else
+                   \@makeschapterhead{#4}\fi\fi
+}{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter\space\@chappos}%
+    \addcontentsline{toc}{chapter}%
+	     {\protect\numberline{\FontCcr
+	     \@chapapp\thechapter\@chappos}\kb@tmp@SChapter}%
+    \else\addcontentsline{toc}{chapter}{\kb@tmp@SChapter}\fi
+	 \else
+    \addcontentsline{toc}{chapter}{\kb@tmp@SChapter}%
+  \fi
+  \chaptermark{\kb@tmp@SChapter}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+\if@appendix@@
+  \@make@appendix@chapterhead{#4}%%\@appendix@@false
+  \else
+  \@makechapterhead{#4}%
+  \fi
+}\@afterheading}
 
 %% end KBD
 
@@ -411,152 +479,157 @@ MIT Lincoln Laboratory Series\vrule depth 4pt width0pt}
 
 %% only used for Part, chapter
 
-\def\l@schapter{%
-\vskip3pt
-\@dottedtocline{-1}{6pt}{.475in}}
 
-\def\l@chapter{%
-\vskip.0883in
-\vskip6pt
-\z@dottedtocline{-1}{21pt}{.475in}}
-
-\def\l@reference{%
-\vskip.0883in
-\zz@dottedtocline{-1}{21pt}{.475in}}
-
-\def\numberline#1{\noindent\llap{\hbox to 16pt{\hbox to 5.56pt{\hss#1}\hfill}}}
-
-\def\sectionnumberline#1{\noindent\llap{\hbox to 27pt{#1\hfill}}}
-\def\subsectionnumberline#1{\noindent\llap{\hbox to 37pt{#1\hfill}}}
-
-
-\def\chapnumberline#1{\hbox to .1in{\llap{\hb@xt@.25in{\hskip4pt\hbox to 5.56pt{\hss#1}\hfil}\hfill}}}
-
-\def\xnumberline#1{\hskip-1.5pt\hskip-.25in\relax#1\enskip\relax}
-
-
-\def\@dottedtocline#1#2#3#4#5{%
-\ifnum #1>\c@tocdepth \else
-\ifnum#1=-1\tocpartfont\fi
-\ifnum#1>-1\normalsize\tocrmfont\fi
-\baselineskip=13pt
-    \vskip \z@ \@plus.2\p@
-    {\leftskip=-12pt %\leftskip #2\relax 
-\rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindentfalse
-     \interlinepenalty\@M
-\hyphenpenalty10000
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima 
-\null\nobreak\hskip -\leftskip
-     {#4}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
-\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
-     \par}%
-\fi
-\tocrmfont
-}
-
-% for chapter
-\def\z@dottedtocline#1#2#3#4#5{%
-\ifnum #1>\c@tocdepth \else
-\ifnum#1=-1\tocpartfont\fi
-\ifnum#1>-1\normalsize\tocrmfont\fi
-\baselineskip=13pt
-    \vskip \z@ \@plus.2\p@
-    {\leftskip=-12pt %\leftskip #2\relax 
-\rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindentfalse
-     \interlinepenalty\@M
-\hyphenpenalty10000
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima 
-\null\nobreak\hskip -\leftskip
-     \vtop{\advance\hsize-1in
-\advance\hsize-28pt
-\parindent=0pt
-\raggedright
-#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
-\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
-     \par}%
-\fi
-\tocrmfont
-}
-
-%% for References (always chapter references)
-\def\zz@dottedtocline#1#2#3#4#5{%
-\tocrmfont
-    \vskip -\parskip
-    {\leftskip=-12pt %\leftskip #2\relax 
-\rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindentfalse
-     \interlinepenalty\@M
-\hyphenpenalty10000
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima 
-\null\nobreak\hskip -\leftskip
-References\hfill\hb@xt@\@pnumwidth{\hss
-\relax#5}%
-     \par}%
-\tocrmfont
-}
-
-% for section
-\def\x@dottedtocline#1#2#3#4#5{%
-\ifnum #1>\c@tocdepth \else
-\ifnum#1=-1\tocpartfont\fi
-\ifnum#1>-1\normalsize\tocrmfont\fi
-\baselineskip=13pt
-    \vskip \z@ \@plus.2\p@
-    {\leftskip=-12pt %\leftskip #2\relax 
-\rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindentfalse
-     \interlinepenalty\@M
-\hyphenpenalty10000
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima 
-\null\nobreak\hskip -\leftskip
-     \vtop{\advance\hsize-1.25in
-\advance\hsize-28pt
-\parindent=0pt
-\raggedright
-#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
-\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
-     \par}%
-\fi
-\tocrmfont
-}
-
-% for subsection
-\def\y@dottedtocline#1#2#3#4#5{%
-\ifnum #1>\c@tocdepth \else
-\ifnum#1=-1\tocpartfont\fi
-\ifnum#1>-1\normalsize\tocrmfont\fi
-\baselineskip=13pt
-    \vskip \z@ \@plus.2\p@
-    {\leftskip=-12pt %\leftskip #2\relax 
-\rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindentfalse
-     \interlinepenalty\@M
-\hyphenpenalty10000
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima 
-\null\nobreak\hskip -\leftskip
-     \vtop{\advance\hsize-1.75in
-\advance\hsize-28pt
-\parindent=0pt
-\raggedright
-#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
-\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
-     \par}%
-\fi
-\tocrmfont
-}
-
+%% 
+\let\l@reference\l@section%% added
+%% 2019/12/13 原著用の設定をキャンセル
+%\iffalse
+%\def\l@schapter{%
+%\vskip3pt
+%\@dottedtocline{-1}{6pt}{.475in}}
+%
+%\def\l@chapter{%
+%\vskip.0883in
+%\vskip6pt
+%\z@dottedtocline{-1}{21pt}{.475in}}
+%
+%\def\l@reference{%
+%\vskip.0883in
+%\zz@dottedtocline{-1}{21pt}{.475in}}
+%
+%\def\numberline#1{\noindent\llap{\hbox to 16pt{\hbox to 5.56pt{\hss#1}\hfill}}}
+%
+%\def\sectionnumberline#1{\noindent\llap{\hbox to 27pt{#1\hfill}}}
+%\def\subsectionnumberline#1{\noindent\llap{\hbox to 37pt{#1\hfill}}}
+%
+%
+%\def\chapnumberline#1{\hbox to .1in{\llap{\hb@xt@.25in{\hskip4pt\hbox to 5.56pt{\hss#1}\hfil}\hfill}}}
+%
+%\def\xnumberline#1{\hskip-1.5pt\hskip-.25in\relax#1\enskip\relax}
+%
+%
+%\def\@dottedtocline#1#2#3#4#5{%
+%\ifnum #1>\c@tocdepth \else
+%\ifnum#1=-1\tocpartfont\fi
+%\ifnum#1>-1\normalsize\tocrmfont\fi
+%\baselineskip=13pt
+%    \vskip \z@ \@plus.2\p@
+%    {\leftskip=-12pt %\leftskip #2\relax 
+%\rightskip \@tocrmarg \parfillskip -\rightskip
+%     \parindent #2\relax\@afterindentfalse
+%     \interlinepenalty\@M
+%\hyphenpenalty10000
+%     \leavevmode
+%     \@tempdima #3\relax
+%     \advance\leftskip \@tempdima 
+%\null\nobreak\hskip -\leftskip
+%     {#4}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+%\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+%     \par}%
+%\fi
+%\tocrmfont
+%}
+%
+%% for chapter
+%\def\z@dottedtocline#1#2#3#4#5{%
+%\ifnum #1>\c@tocdepth \else
+%\ifnum#1=-1\tocpartfont\fi
+%\ifnum#1>-1\normalsize\tocrmfont\fi
+%\baselineskip=13pt
+%    \vskip \z@ \@plus.2\p@
+%    {\leftskip=-12pt %\leftskip #2\relax 
+%\rightskip \@tocrmarg \parfillskip -\rightskip
+%     \parindent #2\relax\@afterindentfalse
+%     \interlinepenalty\@M
+%\hyphenpenalty10000
+%     \leavevmode
+%     \@tempdima #3\relax
+%     \advance\leftskip \@tempdima 
+%\null\nobreak\hskip -\leftskip
+%     \vtop{\advance\hsize-1in
+%\advance\hsize-28pt
+%\parindent=0pt
+%\raggedright
+%#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+%\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+%     \par}%
+%\fi
+%\tocrmfont
+%}
+%
+%%% for References (always chapter references)
+%\def\zz@dottedtocline#1#2#3#4#5{%
+%\tocrmfont
+%    \vskip -\parskip
+%    {\leftskip=-12pt %\leftskip #2\relax 
+%\rightskip \@tocrmarg \parfillskip -\rightskip
+%     \parindent #2\relax\@afterindentfalse
+%     \interlinepenalty\@M
+%\hyphenpenalty10000
+%     \leavevmode
+%     \@tempdima #3\relax
+%     \advance\leftskip \@tempdima 
+%\null\nobreak\hskip -\leftskip
+%References\hfill\hb@xt@\@pnumwidth{\hss
+%\relax#5}%
+%     \par}%
+%\tocrmfont
+%}
+%
+%% for section
+%\def\x@dottedtocline#1#2#3#4#5{%
+%\ifnum #1>\c@tocdepth \else
+%\ifnum#1=-1\tocpartfont\fi
+%\ifnum#1>-1\normalsize\tocrmfont\fi
+%\baselineskip=13pt
+%    \vskip \z@ \@plus.2\p@
+%    {\leftskip=-12pt %\leftskip #2\relax 
+%\rightskip \@tocrmarg \parfillskip -\rightskip
+%     \parindent #2\relax\@afterindentfalse
+%     \interlinepenalty\@M
+%\hyphenpenalty10000
+%     \leavevmode
+%     \@tempdima #3\relax
+%     \advance\leftskip \@tempdima 
+%\null\nobreak\hskip -\leftskip
+%     \vtop{\advance\hsize-1.25in
+%\advance\hsize-28pt
+%\parindent=0pt
+%\raggedright
+%#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+%\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+%     \par}%
+%\fi
+%\tocrmfont
+%}
+%
+%% for subsection
+%\def\y@dottedtocline#1#2#3#4#5{%
+%\ifnum #1>\c@tocdepth \else
+%\ifnum#1=-1\tocpartfont\fi
+%\ifnum#1>-1\normalsize\tocrmfont\fi
+%\baselineskip=13pt
+%    \vskip \z@ \@plus.2\p@
+%    {\leftskip=-12pt %\leftskip #2\relax 
+%\rightskip \@tocrmarg \parfillskip -\rightskip
+%     \parindent #2\relax\@afterindentfalse
+%     \interlinepenalty\@M
+%\hyphenpenalty10000
+%     \leavevmode
+%     \@tempdima #3\relax
+%     \advance\leftskip \@tempdima 
+%\null\nobreak\hskip -\leftskip
+%     \vtop{\advance\hsize-1.75in
+%\advance\hsize-28pt
+%\parindent=0pt
+%\raggedright
+%#4\vskip1sp}\nobreak\hfill\hb@xt@\@pnumwidth{\hss
+%\ifnum#1=-1 \tocfoliofont\else\tocrmfont\fi\relax#5}%
+%     \par}%
+%\fi
+%\tocrmfont
+%}
+%\fi
 
 %\renewcommand\flrow@makecaption[2]{\ifnum\floatbox@depth=\z@
 %    \ifvoid\@floatcapt
@@ -578,51 +651,8 @@ References\hfill\hb@xt@\@pnumwidth{\hss
 %    \vspace{-5mm}
 %   \FR@makecaption{#1}{#2}\egroup}
 
-
 \def\blx@dlist@type{}
 \def\blx@dlist@name{}
 %%%%%%%%%%%%%%%
-
-%% 追加 2019-12-02
-%% 章見出しに著者名を追加 [#1], (#2)は省略可
-%% \chapter[柱目次転写](著者名){タイトル}
-%% \chapter*{タイトル}
-%%%% \ChapterAuthor=著者名
-%%%% \kb@tmp@SChapter=柱と目次の一時収納
-\RenewDocumentCommand\chapter{ s o d() m }{%
-  \if@openright\cleardoublepage\else\clearpage\fi
-  \IfValueTF{#3}{\def\ChapterAuthor{#3}}{\def\ChapterAuthor{no name}}%
-  \IfValueTF{#2}{\def\kb@tmp@SChapter{#2}}{\def\kb@tmp@SChapter{#4}}%
-  \thispagestyle{empty}%
-  \global\@topnum\z@
-%  \@afterindentfalse
-\global\advance\@chapterid\@ne% for multicite.sty, multilabel.sty
-\xdef\@ref@prefix{refPrefixID\the\@chapterid:}
-  \@afterindenttrue
-   \IfBooleanTF{#1}{%
-\if@table@of@contents@@
-   \@make@toc@chapterhead{#4}\@table@of@contents@@false\else
-      \if@the@bibliography@@
-         \@make@bib@chapterhead{#4}\@the@bibliography@@false\else
-                   \@makeschapterhead{#4}\fi\fi
-}{%
-  \ifnum \c@secnumdepth >\m@ne
-    \if@mainmatter
-    \refstepcounter{chapter}%
-    \typeout{\@chapapp\space\thechapter\space\@chappos}%
-    \addcontentsline{toc}{chapter}%
-	     {\protect\numberline{\@chapapp\thechapter\@chappos}\kb@tmp@SChapter}%
-    \else\addcontentsline{toc}{chapter}{\kb@tmp@SChapter}\fi
-	 \else
-    \addcontentsline{toc}{chapter}{\kb@tmp@SChapter}%
-  \fi
-  \chaptermark{\kb@tmp@SChapter}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
-\if@appendix@@
-  \@make@appendix@chapterhead{#4}%%\@appendix@@false
-  \else
-  \@makechapterhead{#4}%
-  \fi
-}\@afterheading}
 
 \endinput
