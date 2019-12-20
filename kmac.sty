@@ -1,5 +1,5 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{kmac}[2019/12/17 v0.13]
+\ProvidesPackage{kmac}[2019/12/20 v0.13]
 \RequirePackage{xparse}
 %\def\sortlist[#1]#2{}{}
 %\def\endsortlist{}
@@ -38,11 +38,11 @@
 \setlength{\dimen1}{#1\dimen1}\fontsize{\dimen1}{\baselineskip}\selectfont#2}}
  \DeclareRobustCommand*\KBchapterfont{\reset@font\fontsize{28Q}{35H}\bfs}
  \DeclareRobustCommand*\KBchapternumfont{\reset@font\fontencoding{OT1}\romanfamily{ccr}\fontsize{50Q}{0pt}\gtfamily}
-%% 目次項目のフォント
- \DeclareRobustCommand*\KBtocpartfont{\reset@font\fontsize{12pt}{35H}\bfseries}
- \DeclareRobustCommand*\KBtocnumpartfont{\reset@font\fontsize{12pt}{35H}\bfseries}
- \DeclareRobustCommand*\KBtocchapterfont{\reset@font\fontsize{12pt}{35H}\bfseries}
- \DeclareRobustCommand*\KBtocnumchapterfont{\reset@font\fontsize{12pt}{35H}\bfseries}
+%% 目次項目のフォント2019/12/20 行間修正
+ \DeclareRobustCommand*\KBtocpartfont{\reset@font\fontsize{12pt}{16.5pt}\bfseries}
+ \DeclareRobustCommand*\KBtocnumpartfont{\reset@font\fontsize{12pt}{16.5pt}\bfseries}
+ \DeclareRobustCommand*\KBtocchapterfont{\reset@font\fontsize{12pt}{16.5pt}\bfseries}
+ \DeclareRobustCommand*\KBtocnumchapterfont{\reset@font\fontsize{12pt}{16.5pt}\bfseries}
 %% Concrete font -> \thechpater
 % \DeclareFontFamily{T1}{ccr}{}
 \DeclareFontFamily{OT1}{ccr}{\hyphenchar\font45 }
